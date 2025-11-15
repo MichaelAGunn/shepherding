@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://8rp65h2rjwwt"]
+
+[ext_resource type="PackedScene" uid="uid://dqlmfh4po84v5" path="res://characters/player.tscn" id="1_ftpyu"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jei8b"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_ftpyu"]
+sky_material = SubResource("ProceduralSkyMaterial_jei8b")
+
+[sub_resource type="Environment" id="Environment_fj8ph"]
+background_mode = 2
+sky = SubResource("Sky_ftpyu")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jei8b"]
+albedo_color = Color(0.380392, 0.258824, 0.105882, 1)
+
+[node name="Terrain" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fj8ph")
+
+[node name="Floor" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+radius = 500.0
+height = 1.0
+sides = 32
+material = SubResource("StandardMaterial3D_jei8b")
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="House1" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.883855, 0, 0.46776, 0, 1, 0, -0.46776, 0, 0.883855, -7.9981, 2, -8.93551)
+size = Vector3(4, 4, 4)
+
+[node name="House2" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.751207, 0, -0.660067, 0, 1, 0, 0.660067, 0, 0.751207, 9.6676, 2, -8.93551)
+size = Vector3(4, 4, 4)
+
+[node name="House3" type="CSGBox3D" parent="CSGCombiner3D"]
+transform = Transform3D(0.237228, 0, -0.971454, 0, 1, 0, 0.971454, 0, 0.237228, 17.5331, 2, -3.4749)
+size = Vector3(4, 4, 4)
+
+[node name="Altar" type="CSGCylinder3D" parent="CSGCombiner3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.05504, 0.25, 5.81073)
+radius = 0.3
+height = 0.5
+
+[node name="Player" parent="." instance=ExtResource("1_ftpyu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.818422, 1.90735e-06, 1.47221)
