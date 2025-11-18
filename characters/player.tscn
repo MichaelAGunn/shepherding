@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dqlmfh4po84v5"]
+[gd_scene load_steps=18 format=3 uid="uid://dqlmfh4po84v5"]
 
 [ext_resource type="Script" uid="uid://cs5dk3toqfqw3" path="res://characters/player.gd" id="1_dnjla"]
 
@@ -10,21 +10,6 @@ material = SubResource("StandardMaterial3D_dnjla")
 [sub_resource type="SphereShape3D" id="SphereShape3D_dnjla"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_3eadt"]
-
-[sub_resource type="Animation" id="Animation_3eadt"]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_tory2"]
 length = 0.001
@@ -39,66 +24,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_x0jl3"]
-resource_name = "run"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.37586, 0.498111, 0.836845, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_evndh"]
-resource_name = "fall"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.0814852, 0.189885, 0.107866, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_h1q25"]
-resource_name = "leap"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.209587, 0.415969, 0.259518, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_j31ep"]
-resource_name = "hop"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.352941, 0.65098, 0.423529, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_6t23p"]
@@ -131,21 +56,6 @@ tracks/0/keys = {
 "values": [Color(0.650012, 0.286313, 5.77569e-07, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_q605b"]
-resource_name = "hurt"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.44703, 0, 0.0502517, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_eho78"]
 resource_name = "death"
 tracks/0/type = "value"
@@ -161,6 +71,96 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_evndh"]
+resource_name = "fall"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.0814852, 0.189885, 0.107866, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j31ep"]
+resource_name = "hop"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.352941, 0.65098, 0.423529, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_q605b"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.44703, 0, 0.0502517, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3eadt"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_h1q25"]
+resource_name = "leap"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.209587, 0.415969, 0.259518, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_x0jl3"]
+resource_name = "run"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.37586, 0.498111, 0.836845, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8sqrr"]
 _data = {
 &"RESET": SubResource("Animation_tory2"),
@@ -174,6 +174,10 @@ _data = {
 &"leap": SubResource("Animation_h1q25"),
 &"run": SubResource("Animation_x0jl3")
 }
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_dnjla"]
+height = 1.0
+radius = 10.0
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_dnjla")
@@ -199,3 +203,9 @@ spring_length = 6.0
 libraries = {
 &"": SubResource("AnimationLibrary_8sqrr")
 }
+
+[node name="FollowRange" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FollowRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CylinderShape3D_dnjla")

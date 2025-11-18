@@ -22,6 +22,7 @@ var death_time: float
 @onready var jump_gravity: float = ((-2.0 * jump_height) / (jump_time_to_peak ** 2))
 @onready var fall_gravity: float = ((-2.0 * jump_height) / (jump_time_to_descent ** 2))
 
+@onready var follow = $FollowRange
 @onready var camera_control = $CameraControl
 @onready var spring_arm_3d = $CameraControl/SpringArm3D
 @onready var camera_3d = $CameraControl/SpringArm3D/Camera3D
@@ -29,6 +30,7 @@ var death_time: float
 @onready var body = $MeshInstance3D
 
 func _ready() -> void:
+	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	initialize_state_machine()
 
@@ -72,8 +74,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		player_sm.dispatch(&"to_block")
 
 func _physics_process(delta: float) -> void:
-	print(player_sm.get_active_state())
-	print(anima.get_current_animation())
+	#print(player_sm.get_active_state())
+	#print(anima.get_current_animation())
 	if not is_on_floor() and velocity.y < 0.0:
 		player_sm.dispatch(&"to_fall")
 	# Camera by Mouse
