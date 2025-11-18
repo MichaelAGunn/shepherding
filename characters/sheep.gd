@@ -26,8 +26,6 @@ func _ready() -> void:
 	nav.target_position = Vector3.ZERO
 
 func _physics_process(_delta: float) -> void:
-	print(state)
-	print(state_time)
 	state_time -= 1
 	match state:
 		States.IDLE:
@@ -95,6 +93,10 @@ func change_state(next_state) -> void:
 			anima.play("walk")
 			state_time = 300
 			nav.set_target_position((global_position - Global.predator.global_position).normalized() * 20)
+		States.GRAZE:
+			anima.play("graze")
+		States.DRINK:
+			anima.play("drink")
 	# Change state now!
 	state = next_state
 	# Post state changes.
