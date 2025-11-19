@@ -23,6 +23,8 @@ var death_time: float
 @onready var fall_gravity: float = ((-2.0 * jump_height) / (jump_time_to_descent ** 2))
 
 @onready var follow = $FollowRange
+@onready var close = $CloseRange
+@onready var interact = $MeshInstance3D/InteractRange
 @onready var camera_control = $CameraControl
 @onready var spring_arm_3d = $CameraControl/SpringArm3D
 @onready var camera_3d = $CameraControl/SpringArm3D/Camera3D
@@ -72,6 +74,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Blocking
 	if event.is_action_pressed("block"):
 		player_sm.dispatch(&"to_block")
+	if event.is_action_pressed("rally"):
+		Global.rally.emit()
+	if event.is_action_pressed("interact"):
+		Global.interact.emit()
+	# For debug purposes only!
+	if event.is_action_pressed("debug"):
+		Global.all_struggle.emit()
 
 func _physics_process(delta: float) -> void:
 	#print(player_sm.get_active_state())

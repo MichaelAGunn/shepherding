@@ -27,8 +27,6 @@ func _ready() -> void:
 	nav.target_position = Vector3.ZERO
 
 func _physics_process(_delta: float) -> void:
-	print(state)
-	print(state_time)
 	state_time -= 1
 	match state:
 		States.IDLE:
