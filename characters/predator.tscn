@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cisubgo6to31p"]
+[gd_scene load_steps=18 format=3 uid="uid://cisubgo6to31p"]
 
 [ext_resource type="Script" uid="uid://4fm5ilagvmog" path="res://characters/predator.gd" id="1_lyuo1"]
 
@@ -7,6 +7,12 @@ albedo_color = Color(1, 1, 0, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_lyuo1"]
 material = SubResource("StandardMaterial3D_cq821")
+
+[sub_resource type="TorusMesh" id="TorusMesh_lyuo1"]
+inner_radius = 0.1
+outer_radius = 0.3
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k0ioe"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k0ioe"]
 
@@ -162,14 +168,23 @@ _data = {
 height = 1.0
 radius = 20.0
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_k0ioe"]
-
 [node name="Predator" type="CharacterBody3D"]
 script = ExtResource("1_lyuo1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("SphereMesh_lyuo1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.5)
+mesh = SubResource("TorusMesh_lyuo1")
+
+[node name="ThreatRange" type="Area3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/ThreatRange"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0.5)
+shape = SubResource("BoxShape3D_k0ioe")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -183,15 +198,13 @@ libraries = {
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true
 debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(1, 1, 0, 1)
 
-[node name="HostilityRange" type="Area3D" parent="."]
+[node name="HostileRange" type="Area3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HostilityRange"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HostileRange"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CylinderShape3D_lyuo1")
 
-[node name="ThreatRange" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ThreatRange"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
-shape = SubResource("BoxShape3D_k0ioe")
+[connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]

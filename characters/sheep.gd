@@ -32,10 +32,10 @@ func _ready() -> void:
 	nav.target_position = Vector3.ZERO
 	Global.rally.connect(_on_player_rallies)
 	Global.interact.connect(_on_player_interacts)
-	Global.all_struggle.connect(_debug_struggle)
-
-func _debug_struggle() -> void:
-	change_state(States.INVERT)
+	#Global.all_struggle.connect(_debug_struggle)
+#
+#func _debug_struggle() -> void:
+	#change_state(States.INVERT)
 
 func _physics_process(_delta: float) -> void:
 	state_time -= 1
@@ -59,9 +59,9 @@ func _physics_process(_delta: float) -> void:
 		States.REVERT:
 			revert()
 		States.HURT:
-			pass
+			hurt()
 		States.DIE:
-			pass
+			die()
 	move_and_slide()
 
 func idle() -> void:
@@ -125,13 +125,12 @@ func die() -> void:
 
 func change_state(next_state) -> void:
 	# Cleanup before changing state.
-	print("FROM: ", States.keys()[state], " TO: ", States.keys()[next_state])
+	#print("FROM: ", States.keys()[state], " TO: ", States.keys()[next_state])
 	anima.stop()
 	match next_state:
 		States.IDLE:
 			anima.play("idle")
 			state_time = 60
-			#nav.set_target_position(Vector3.ZERO)
 		States.WANDER:
 			anima.play("walk")
 			state_time = 200
@@ -196,8 +195,6 @@ func _on_player_rallies() -> void:
 			change_state(States.FOLLOW)
 
 func _on_player_interacts() -> void:
-	print("PRESSED INTERACT!")
-	print(Global.player.interact.get_overlapping_bodies())
 	if self in Global.player.interact.get_overlapping_bodies():
 		if state == States.STRUGGLE:
 			change_state(States.REVERT)
