@@ -173,10 +173,12 @@ func moving(speed: float) -> void:
 	var new_velocity = (next_location - global_transform.origin).normalized() * speed
 	velocity = velocity.move_toward(new_velocity, 0.25)
 	velocity.y = 0.0
-	var target_angle := Vector3.BACK.signed_angle_to(_last_movement_dir, Vector3.UP)
-	global_rotation.y = target_angle
 	if velocity == Vector3.ZERO:
 		change_state(States.IDLE)
+	else:
+		_last_movement_dir = velocity
+		var target_angle := Vector3.BACK.signed_angle_to(_last_movement_dir, Vector3.UP)
+		global_rotation.y = target_angle
 
 func find_wander_target() -> void:
 	var direction: Vector3 = global_transform.origin

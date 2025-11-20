@@ -13,6 +13,7 @@ class_name Predator extends CharacterBody3D
 var state: int
 var state_time: int
 var target: CharacterBody3D
+var _last_movement_dir := Vector3.BACK
 
 enum States {
 	IDLE,
@@ -81,7 +82,7 @@ func flee() -> void:
 	moving(chase_speed)
 
 func roar() -> void:
-	pass
+	Global.startle.emit()
 
 func bite() -> void:
 	pass
@@ -113,6 +114,18 @@ func change_state(next_state) -> void:
 			anima.play("walk")
 			state_time = 500
 			nav.set_target_position((global_position - Global.player.global_position).normalized() * 20)
+		States.ROAR:
+			anima.play("roar")
+			state_time = 15
+		States.BITE:
+			anima.play("bite")
+			state_time = 15
+		States.HURT:
+			anima.play("hurt")
+			state_time = 30
+		States.DIE:
+			anima.play("die")
+			state_time = 15
 	# Change state now!
 	state = next_state
 	# Post state changes.
@@ -124,6 +137,10 @@ func moving(speed: float) -> void:
 	velocity.y = 0.0
 	if velocity == Vector3.ZERO:
 		change_state(States.IDLE)
+	else:
+		_last_movement_dir = velocity
+		var target_angle := Vector3.BACK.signed_angle_to(_last_movement_dir, Vector3.UP)
+		body.global_rotation.y = target_angle
 
 func choose_target() -> CharacterBody3D: # TODO: make this select the nearest thing!
 	return Global.player

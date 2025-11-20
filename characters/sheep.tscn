@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b02rrq0vkl5n"]
+[gd_scene load_steps=17 format=3 uid="uid://b02rrq0vkl5n"]
 
 [ext_resource type="Script" uid="uid://djiepk35qk2e8" path="res://characters/sheep.gd" id="1_lh1sy"]
 
@@ -7,6 +7,10 @@ albedo_color = Color(0.737193, 0.737193, 0.737193, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_lh1sy"]
 material = SubResource("StandardMaterial3D_gj8e8")
+
+[sub_resource type="SphereMesh" id="SphereMesh_nt028"]
+radius = 0.1
+height = 0.2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_nt028"]
 
@@ -180,6 +184,10 @@ script = ExtResource("1_lh1sy")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("SphereMesh_lh1sy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("SphereMesh_nt028")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
