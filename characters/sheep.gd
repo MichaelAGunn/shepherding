@@ -8,6 +8,7 @@ class_name Sheep extends CharacterBody3D
 @export var wander_speed: float = 1.0
 @export var follow_speed: float = 3.0
 @export var flee_speed: float = 5.0
+@export var health: int = 5
 
 var state: int
 var state_time: int
@@ -32,6 +33,8 @@ func _ready() -> void:
 	nav.target_position = Vector3.ZERO
 	Global.rally.connect(_on_player_rallies)
 	Global.interact.connect(_on_player_interacts)
+	Global.roar.connect(_on_predator_roars)
+	Global.bite.connect(_on_predator_bites)
 	#Global.all_struggle.connect(_debug_struggle)
 #
 #func _debug_struggle() -> void:
@@ -116,12 +119,16 @@ func revert() -> void:
 	if state_time <= 0:
 		change_state(States.IDLE)
 
-func hurt() -> void: # TODO: Make predators capable of hurting sheep!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	pass
+func hurt() -> void:
+	if state_time <= 0:
+		change_state(States.STRUGGLE)
+	if health == 0:
+		change_state(States.DIE)
 
 func die() -> void:
 	if state_time <= 0:
 		queue_free()
+		print("Sheep died!!!")
 
 func change_state(next_state) -> void:
 	# Cleanup before changing state.
@@ -161,6 +168,8 @@ func change_state(next_state) -> void:
 		States.HURT:
 			anima.play("hurt")
 			state_time = 10
+			health -= 1
+			print("Sheep health: ", health)
 		States.DIE:
 			anima.play("die")
 			state_time = 25
@@ -191,7 +200,6 @@ func _on_navigation_agent_3d_target_reached():
 		change_state(States.IDLE)
 
 func _on_player_rallies() -> void:
-	print(Global.player.follow.get_overlapping_bodies())
 	if state in [States.IDLE, States.WANDER]:
 		if self in Global.player.follow.get_overlapping_bodies():
 			change_state(States.FOLLOW)
@@ -206,3 +214,13 @@ func _on_player_interacts() -> void:
 				change_state(States.GRAZE)
 			elif self in Global.stream.get_overlapping_bodies():
 				change_state(States.DRINK)
+
+func _on_predator_roars() -> void:
+	if self in Global.predator.roars.get_overlapping_bodies():
+		if state not in [States.STRUGGLE, States.REVERT, States.HURT, States.DIE]:
+			change_state(States.INVERT)
+
+func _on_predator_bites() -> void:
+	if self in Global.predator.threat.get_overlapping_bodies():
+		if state not in [States.STRUGGLE, States.REVERT, States.HURT, States.DIE]:
+			change_state(States.HURT)

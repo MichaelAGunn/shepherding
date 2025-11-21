@@ -8,5 +8,6 @@ var stream: Stream
 
 signal rally
 signal interact
-signal startle
+signal roar
+signal bite
 signal all_struggle

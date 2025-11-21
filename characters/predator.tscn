@@ -217,4 +217,7 @@ shape = SubResource("CylinderShape3D_lyuo1")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CylinderShape3D_k0ioe")
 
+[connection signal="body_entered" from="MeshInstance3D/ThreatRange" to="." method="_on_threat_range_body_entered"]
 [connection signal="target_reached" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_target_reached"]
+[connection signal="body_entered" from="HostileRange" to="." method="_on_hostile_range_body_entered"]
+[connection signal="body_exited" from="HostileRange" to="." method="_on_hostile_range_body_exited"]
