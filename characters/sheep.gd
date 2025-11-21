@@ -132,7 +132,7 @@ func die() -> void:
 
 func change_state(next_state) -> void:
 	# Cleanup before changing state.
-	#print("FROM: ", States.keys()[state], " TO: ", States.keys()[next_state])
+	print("FROM: ", States.keys()[state], " TO: ", States.keys()[next_state])
 	anima.stop()
 	match next_state:
 		States.IDLE:
@@ -158,12 +158,18 @@ func change_state(next_state) -> void:
 			state_time = 100
 		States.INVERT:
 			anima.play("invert")
+			var tween = get_tree().create_tween()
+			tween.tween_property(self, 'position', Vector3.UP, 1.0)
+			tween.tween_property(self, 'position', Vector3.DOWN, 1.0)
 			state_time = 15
 		States.STRUGGLE:
 			anima.play("struggle")
 			state_time = 1000
 		States.REVERT:
-			anima.play("revert")
+			anima.play("invert")
+			var tween = get_tree().create_tween()
+			tween.tween_property(self, 'position', Vector3.UP, 1.0)
+			tween.tween_property(self, 'position', Vector3.DOWN, 1.0)
 			state_time = 15
 		States.HURT:
 			anima.play("hurt")
@@ -175,7 +181,6 @@ func change_state(next_state) -> void:
 			state_time = 25
 	# Change state now!
 	state = next_state
-	# Post state changes.
 
 func moving(speed: float) -> void:
 	var next_location = nav.get_next_path_position()
@@ -221,6 +226,6 @@ func _on_predator_roars() -> void:
 			change_state(States.INVERT)
 
 func _on_predator_bites() -> void:
-	if self in Global.predator.threat.get_overlapping_bodies():
+	if self in Global.predator.threat.get_overlapping_bodies() and self == Global.predator.current_target:
 		if state not in [States.STRUGGLE, States.REVERT, States.HURT, States.DIE]:
 			change_state(States.HURT)

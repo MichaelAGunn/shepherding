@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b02rrq0vkl5n"]
+[gd_scene load_steps=18 format=3 uid="uid://b02rrq0vkl5n"]
 
 [ext_resource type="Script" uid="uid://djiepk35qk2e8" path="res://characters/sheep.gd" id="1_lh1sy"]
 
@@ -27,6 +27,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0.737193, 0.737193, 0.737193, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ds5dt"]
@@ -119,6 +131,33 @@ tracks/0/keys = {
 "values": [Color(0.737193, 0.737193, 0.737193, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_ctopm"]
+resource_name = "invert"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MeshInstance3D:mesh:material:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.834783, 0.491869, 0.572646, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MeshInstance3D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0), Vector3(0, 1, 0), Vector3(0, 0.5, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_q3gmu"]
 resource_name = "struggle"
 tracks/0/type = "value"
@@ -173,6 +212,7 @@ _data = {
 &"grabbed": SubResource("Animation_w84ea"),
 &"graze": SubResource("Animation_fjb8b"),
 &"idle": SubResource("Animation_gj8e8"),
+&"invert": SubResource("Animation_ctopm"),
 &"struggle": SubResource("Animation_q3gmu"),
 &"unflip": SubResource("Animation_vfaf1"),
 &"walk": SubResource("Animation_nt028")

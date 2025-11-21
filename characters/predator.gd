@@ -15,6 +15,7 @@ var state: int
 var state_time: int
 var target: CharacterBody3D
 var _last_movement_dir := Vector3.BACK
+var health: int = 5
 var sheep_nearby: int = 0
 var player_nearby: bool = false
 var current_target: CharacterBody3D
@@ -34,9 +35,10 @@ func _ready() -> void:
 	Global.predator = self
 	state = States.IDLE
 	nav.target_position = Vector3.ZERO
+	Global.attack.connect(_on_player_attacks)
 	Global.interact.connect(_on_player_interacts)
 	Global.all_struggle.connect(_debug_struggle)
-#
+
 func _debug_struggle() -> void:
 	change_state(States.CHASE)
 
@@ -74,8 +76,8 @@ func wander() -> void:
 func chase() -> void:
 	if state_time <= 0:
 		change_state(States.IDLE)
-	if current_target not in hostile.get_overlapping_bodies():
-		change_state(States.ROAR)
+	if current_target in threat.get_overlapping_bodies():
+		change_state(States.BITE)
 	moving(chase_speed)
 	if current_target.global_position != nav.target_position:
 		nav.set_target_position(current_target.global_position)
@@ -102,7 +104,11 @@ func bite() -> void:
 			change_state(States.ROAR)
 	velocity = Vector3.ZERO
 
-func hurt() -> void: # TODO: Make player capable of hurting predator!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+func hurt() -> void:
+	if state_time <= 0:
+		change_state(States.ROAR)
+	if health == 0:
+		change_state(States.DIE)
 	velocity = Vector3.ZERO
 
 func die() -> void:
@@ -111,7 +117,7 @@ func die() -> void:
 
 func change_state(next_state: int, target=null) -> void:
 	# Cleanup before changing state.
-	print("FROM: ", States.keys()[state], " TO: ", States.keys()[next_state])
+	#print("FROM: ", States.keys()[state], " TO: ", States.keys()[next_state])
 	anima.stop()
 	match next_state:
 		States.IDLE:
@@ -122,6 +128,7 @@ func change_state(next_state: int, target=null) -> void:
 			state_time = 100
 			find_wander_target()
 		States.CHASE:
+			print("Chase target: ", target)
 			anima.play("walk")
 			state_time = 500
 			find_chase_target(target)
@@ -140,6 +147,8 @@ func change_state(next_state: int, target=null) -> void:
 		States.HURT:
 			anima.play("hurt")
 			state_time = 30
+			health -= 1
+			print("Predator health: ", health)
 		States.DIE:
 			anima.play("die")
 			state_time = 15
@@ -175,6 +184,10 @@ func find_chase_target(target: CharacterBody3D) -> void:
 func _on_player_interacts() -> void:
 	if self in Global.player.interact.get_overlapping_bodies():
 		change_state(States.FLEE)
+
+func _on_player_attacks() -> void:
+	if self in Global.player.interact.get_overlapping_bodies():
+		change_state(States.HURT)
 
 func _on_navigation_agent_3d_target_reached():
 	if state in [States.WANDER, States.FLEE]:

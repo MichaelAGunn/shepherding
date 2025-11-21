@@ -12,6 +12,7 @@ func _ready() -> void:
 	Global.main = self
 	#player = load("res://characters/player.tscn").instantiate()
 	change_3d_scene('res://environment/terrain.tscn')
+	change_gui_scene('res://environment/splash.tscn')
 
 func change_3d_scene(new_scene: String, delete: bool=true, keep_running=false) -> void:
 	if current_3d_scene != null:
@@ -24,4 +25,17 @@ func change_3d_scene(new_scene: String, delete: bool=true, keep_running=false) -
 	var new = load(new_scene).instantiate()
 	world_3d.add_child(new)
 	current_3d_scene = new
+	#player.global_transform = current_3d_scene.global_transform
+
+func change_gui_scene(new_scene: String, delete: bool=true, keep_running=false) -> void:
+	if current_gui_scene != null:
+		if delete:
+			current_gui_scene.queue_free() # Removes node entirely
+		elif keep_running:
+			current_gui_scene.visible = false # Hides scene while in memory and running
+		else:
+			world_3d.remove_child(current_3d_scene) # Keeps in memory but won't run
+	var new = load(new_scene).instantiate()
+	gui.add_child(new)
+	current_gui_scene = new
 	#player.global_transform = current_3d_scene.global_transform

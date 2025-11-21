@@ -11,3 +11,4 @@ signal interact
 signal roar
 signal bite
 signal all_struggle
+signal attack

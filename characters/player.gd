@@ -11,6 +11,7 @@ var attack_time: float
 var block_time: float
 var hurt_time: float
 var death_time: float
+var health: int = 5
 
 @export var run_speed: float = 12.0
 @export var sneak_speed: float = 2.0
@@ -34,6 +35,7 @@ var death_time: float
 func _ready() -> void:
 	Global.player = self
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Global.bite.connect(_on_predator_bites)
 	initialize_state_machine()
 
 func _input(event: InputEvent) -> void:
@@ -71,6 +73,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Attacking
 	if event.is_action_pressed("attack"):
 		player_sm.dispatch(&"to_attack")
+		Global.attack.emit()
 	# Blocking
 	if event.is_action_pressed("block"):
 		player_sm.dispatch(&"to_block")
@@ -150,7 +153,7 @@ func initialize_state_machine() -> void:
 	player_sm.add_transition(player_sm.ANYSTATE, attack_state, &"to_attack")
 	player_sm.add_transition(player_sm.ANYSTATE, block_state, &"to_block")
 	player_sm.add_transition(player_sm.ANYSTATE, hurt_state, &"to_hurt")
-	player_sm.add_transition(player_sm.ANYSTATE, death_state, &"to_death")
+	player_sm.add_transition(hurt_state, death_state, &"to_death")
 	player_sm.initialize(self)
 	player_sm.set_active(true)
 
@@ -225,6 +228,10 @@ func block_update(_delta: float) -> void:
 func hurt_start() -> void:
 	hurt_time = 1.0
 	anima.play("hurt")
+	health -= 1
+	print("Player health: ", health)
+	if health == 0:
+		player_sm.dispatch(&"to_death")
 
 func hurt_update(_delta: float) -> void:
 	hurt_time -= 0.1 # Works better than a timer!
@@ -240,3 +247,7 @@ func death_start() -> void:
 
 func death_update(_delta: float) -> void:
 	pass
+
+func _on_predator_bites() -> void:
+	if self in Global.predator.threat.get_overlapping_bodies():
+		player_sm.dispatch(&"to_hurt")
